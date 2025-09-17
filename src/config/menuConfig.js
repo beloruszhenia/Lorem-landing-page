@@ -69,6 +69,7 @@ export const menuConfig = {
           id: 'deep-dropdown',
           label: 'Services',
           type: 'dropdown',
+          isDeepDropdown: true,
           items: [
             { id: 'deep-1', label: 'Frontend Development', href: '#frontend' },
             { id: 'deep-2', label: 'Backend Development', href: '#backend' },

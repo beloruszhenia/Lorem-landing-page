@@ -42,6 +42,30 @@ const Header = () => {
     return () => document.removeEventListener('click', handleClickOutside);
   }, []);
 
+  // Закриття мобільного меню при кліку поза ним
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      const nav = document.getElementById('navmenu');
+      const toggle = document.querySelector('.mobile-nav-toggle');
+      
+      if (isMobileMenuOpen && nav && !nav.contains(event.target) && 
+          toggle && !toggle.contains(event.target)) {
+        setIsMobileMenuOpen(false);
+        setMainDropdownOpen(false);
+        setDeepDropdownOpen(false);
+        document.body.classList.remove('mobile-nav-active');
+      }
+    };
+
+    if (isMobileMenuOpen) {
+      document.addEventListener('click', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [isMobileMenuOpen]);
+
   const handleMainDropdownClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -55,6 +79,18 @@ const Header = () => {
     e.preventDefault();
     e.stopPropagation();
     setDeepDropdownOpen(!deepDropdownOpen);
+  };
+
+  const handleDropdownItemClick = (href) => {
+    if (href && href !== '#') {
+      // Для реальних посилань
+      window.location.href = href;
+    }
+    // Закриваємо мобільне меню та dropdown
+    setIsMobileMenuOpen(false);
+    setMainDropdownOpen(false);
+    setDeepDropdownOpen(false);
+    document.body.classList.remove('mobile-nav-active');
   };
 
   const scrollToSection = (sectionId) => {
@@ -107,25 +143,49 @@ const Header = () => {
   // Рендер dropdown пункту
   const renderDropdownItem = (item) => {
     const isMainDropdown = item.id === 'dropdown';
-    const isOpen = isMainDropdown ? mainDropdownOpen : deepDropdownOpen;
-    const handleClick = isMainDropdown ? handleMainDropdownClick : handleDeepDropdownClick;
+    const isDeepDropdown = item.isDeepDropdown === true;
+    const isOpen = isMainDropdown ? mainDropdownOpen : (isDeepDropdown ? deepDropdownOpen : false);
+    
+    let handleClick;
+    if (isMainDropdown) {
+      handleClick = handleMainDropdownClick;
+    } else if (isDeepDropdown) {
+      handleClick = handleDeepDropdownClick;
+    } else {
+      handleClick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+      };
+    }
 
     return (
-      <li key={item.id} className="dropdown position-relative">
+      <li key={item.id} className={`dropdown position-relative ${isOpen ? 'show' : ''}`}>
         <a 
           href="#" 
-          className={isMainDropdown ? "text-decoration-none" : "dropdown-item"}
+          className={isMainDropdown ? "text-decoration-none d-flex align-items-center" : "dropdown-item d-flex align-items-center"}
           onClick={handleClick}
         >
           <span>{item.label}</span> 
-          <i className={`bi ${isOpen ? 'bi-chevron-up' : 'bi-chevron-down'} toggle-dropdown ms-1`}></i>
+          <i className={`bi ${isOpen ? 'bi-chevron-up' : 'bi-chevron-down'} toggle-dropdown ms-auto`}></i>
         </a>
-        <ul className={`dropdown-menu position-absolute ${isOpen ? 'show' : ''}`}>
+        <ul className={`dropdown-menu ${isOpen ? 'show' : ''}`}>
           {item.items.map((subItem) => (
             subItem.type === 'dropdown' 
               ? renderDropdownItem(subItem)
               : <li key={subItem.id}>
-                  <a href={subItem.href} className="dropdown-item">{subItem.label}</a>
+                  <a 
+                    href={subItem.href} 
+                    className="dropdown-item"
+                    onClick={(e) => {
+                      if (subItem.href === '#') {
+                        e.preventDefault();
+                      } else {
+                        handleDropdownItemClick(subItem.href);
+                      }
+                    }}
+                  >
+                    {subItem.label}
+                  </a>
                 </li>
           ))}
         </ul>
@@ -143,7 +203,7 @@ const Header = () => {
           <h1 className="sitename mb-0">{siteName}</h1>
         </a>
 
-        <nav id="navmenu" className="navmenu">
+        <nav id="navmenu" className={`navmenu ${isMobileMenuOpen ? 'navmenu-active' : ''}`}>
           <ul className={`list-unstyled mb-0 ${isMobileMenuOpen ? 'd-block' : ''}`}>
             {menuItems.map(renderMenuItem)}
           </ul>
