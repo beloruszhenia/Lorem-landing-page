@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import { menuConfig } from '../config/menuConfig';
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [activeDropdown, setActiveDropdown] = useState(null);
+  const [mainDropdownOpen, setMainDropdownOpen] = useState(false);
+  const [deepDropdownOpen, setDeepDropdownOpen] = useState(false);
+
+  // Використовуємо конфігурацію з окремого файлу
+  const { siteName, ctaButton, menuItems } = menuConfig;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,15 +28,13 @@ const Header = () => {
     }
   };
 
-  const toggleDropdown = (index) => {
-    setActiveDropdown(activeDropdown === index ? null : index);
-  };
-
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
+      // Перевіряємо чи клік не всередині dropdown меню
       if (!event.target.closest('.dropdown')) {
-        setActiveDropdown(null);
+        setMainDropdownOpen(false);
+        setDeepDropdownOpen(false);
       }
     };
     
@@ -39,14 +42,95 @@ const Header = () => {
     return () => document.removeEventListener('click', handleClickOutside);
   }, []);
 
+  const handleMainDropdownClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setMainDropdownOpen(!mainDropdownOpen);
+    if (!mainDropdownOpen) {
+      setDeepDropdownOpen(false); // Закриваємо deep dropdown при відкритті основного
+    }
+  };
+
+  const handleDeepDropdownClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDeepDropdownOpen(!deepDropdownOpen);
+  };
+
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
     setIsMobileMenuOpen(false);
-    setActiveDropdown(null);
+    setMainDropdownOpen(false);
+    setDeepDropdownOpen(false);
     document.body.classList.remove('mobile-nav-active');
+  };
+
+  // Рендер звичайного пункту меню
+  const renderMenuItem = (item) => {
+    if (item.type === 'dropdown') {
+      return renderDropdownItem(item);
+    }
+
+    // Зовнішнє посилання
+    if (item.type === 'external') {
+      return (
+        <li key={item.id}>
+          <a 
+            href={item.href} 
+            className={`text-decoration-none ${item.active ? 'active' : ''}`}
+            target={item.target || '_self'}
+            rel={item.target === '_blank' ? 'noopener noreferrer' : undefined}
+          >
+            {item.label}
+          </a>
+        </li>
+      );
+    }
+
+    // Звичайне посилання з прокруткою
+    return (
+      <li key={item.id}>
+        <a 
+          href={`#${item.target}`} 
+          className={`text-decoration-none ${item.active ? 'active' : ''}`}
+          onClick={() => scrollToSection(item.target)}
+        >
+          {item.label}
+        </a>
+      </li>
+    );
+  };
+
+  // Рендер dropdown пункту
+  const renderDropdownItem = (item) => {
+    const isMainDropdown = item.id === 'dropdown';
+    const isOpen = isMainDropdown ? mainDropdownOpen : deepDropdownOpen;
+    const handleClick = isMainDropdown ? handleMainDropdownClick : handleDeepDropdownClick;
+
+    return (
+      <li key={item.id} className="dropdown position-relative">
+        <a 
+          href="#" 
+          className={isMainDropdown ? "text-decoration-none" : "dropdown-item"}
+          onClick={handleClick}
+        >
+          <span>{item.label}</span> 
+          <i className={`bi ${isOpen ? 'bi-chevron-up' : 'bi-chevron-down'} toggle-dropdown ms-1`}></i>
+        </a>
+        <ul className={`dropdown-menu position-absolute ${isOpen ? 'show' : ''}`}>
+          {item.items.map((subItem) => (
+            subItem.type === 'dropdown' 
+              ? renderDropdownItem(subItem)
+              : <li key={subItem.id}>
+                  <a href={subItem.href} className="dropdown-item">{subItem.label}</a>
+                </li>
+          ))}
+        </ul>
+      </li>
+    );
   };
 
   return (
@@ -56,44 +140,12 @@ const Header = () => {
     >
       <div className="container-fluid container-xl position-relative d-flex align-items-center">
         <a href="#" className="logo d-flex align-items-center me-auto text-decoration-none">
-          <h1 className="sitename mb-0">LOREM</h1>
+          <h1 className="sitename mb-0">{siteName}</h1>
         </a>
 
         <nav id="navmenu" className="navmenu">
           <ul className={`list-unstyled mb-0 ${isMobileMenuOpen ? 'd-block' : ''}`}>
-            <li><a href="#hero" className="active text-decoration-none" onClick={() => scrollToSection('hero')}>Home</a></li>
-            <li><a href="#about" className="text-decoration-none" onClick={() => scrollToSection('about')}>About</a></li>
-            <li><a href="#services" className="text-decoration-none" onClick={() => scrollToSection('services')}>Services</a></li>
-            <li><a href="#portfolio" className="text-decoration-none" onClick={() => scrollToSection('portfolio')}>Portfolio</a></li>
-            <li><a href="#team" className="text-decoration-none" onClick={() => scrollToSection('team')}>Team</a></li>
-            <li><a href="#pricing" className="text-decoration-none" onClick={() => scrollToSection('pricing')}>Pricing</a></li>
-            <li><a href="#recent-blog-postst" className="text-decoration-none" onClick={() => scrollToSection('recent-blog-postst')}>Blog</a></li>
-            <li className="dropdown position-relative">
-              <a href="#" className="text-decoration-none" onClick={(e) => { e.preventDefault(); toggleDropdown(0); }}>
-                <span>Dropdown</span> 
-                <i className={`bi ${activeDropdown === 0 ? 'bi-chevron-up' : 'bi-chevron-down'} toggle-dropdown ms-1`}></i>
-              </a>
-              <ul className={`dropdown-menu position-absolute ${activeDropdown === 0 ? 'show' : ''}`}>
-                <li><a href="#" className="dropdown-item">Dropdown 1</a></li>
-                <li className="dropdown position-relative">
-                  <a href="#" className="dropdown-item" onClick={(e) => { e.preventDefault(); toggleDropdown(1); }}>
-                    <span>Deep Dropdown</span> 
-                    <i className={`bi ${activeDropdown === 1 ? 'bi-chevron-up' : 'bi-chevron-down'} toggle-dropdown ms-1`}></i>
-                  </a>
-                  <ul className={`dropdown-menu position-absolute ${activeDropdown === 1 ? 'show' : ''}`}>
-                    <li><a href="#" className="dropdown-item">Deep Dropdown 1</a></li>
-                    <li><a href="#" className="dropdown-item">Deep Dropdown 2</a></li>
-                    <li><a href="#" className="dropdown-item">Deep Dropdown 3</a></li>
-                    <li><a href="#" className="dropdown-item">Deep Dropdown 4</a></li>
-                    <li><a href="#" className="dropdown-item">Deep Dropdown 5</a></li>
-                  </ul>
-                </li>
-                <li><a href="#" className="dropdown-item">Dropdown 2</a></li>
-                <li><a href="#" className="dropdown-item">Dropdown 3</a></li>
-                <li><a href="#" className="dropdown-item">Dropdown 4</a></li>
-              </ul>
-            </li>
-            <li><a href="#contact" className="text-decoration-none" onClick={() => scrollToSection('contact')}>Contact</a></li>
+            {menuItems.map(renderMenuItem)}
           </ul>
           <i 
             className={`mobile-nav-toggle d-xl-none bi ${isMobileMenuOpen ? 'bi-x' : 'bi-list'}`}
@@ -101,7 +153,13 @@ const Header = () => {
           ></i>
         </nav>
 
-        <a className="btn-getstarted text-decoration-none" href="#about" onClick={() => scrollToSection('about')}>Get Started</a>
+        <a 
+          className="btn-getstarted text-decoration-none" 
+          href={`#${ctaButton.target}`} 
+          onClick={() => scrollToSection(ctaButton.target)}
+        >
+          {ctaButton.text}
+        </a>
       </div>
     </header>
   );

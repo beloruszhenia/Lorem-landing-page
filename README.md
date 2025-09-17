@@ -138,6 +138,7 @@ Modify CSS custom properties in `styles.css`:
 
 ## 🚀 Build & Deploy
 
+### Local Build
 1. **Build for production**
    ```bash
    npm run build
@@ -146,6 +147,58 @@ Modify CSS custom properties in `styles.css`:
 2. **Deploy to hosting**
    - Upload `build/` folder contents to your web server
    - Configure server for SPA routing (if needed)
+
+### Deploy to Render.com
+
+1. **Push to GitHub**
+   ```bash
+   git init
+   git add .
+   git commit -m "Initial commit"
+   git branch -M main
+   git remote add origin <your-github-repo-url>
+   git push -u origin main
+   ```
+
+2. **Connect to Render**
+   - Go to [render.com](https://render.com)
+   - Click "New +" → "Static Site"
+   - Connect your GitHub repository
+   - Configure build settings:
+     - **Build Command**: `npm run build`
+     - **Publish Directory**: `build`
+     - **Node Version**: `18`
+
+3. **Environment Variables** (if needed)
+   ```
+   NODE_VERSION=18
+   NPM_VERSION=8
+   ```
+
+4. **Auto Deploy**
+   - Render automatically deploys on every push to main branch
+   - Your site will be available at: `https://your-site-name.onrender.com`
+
+### Deploy to Other Platforms
+
+#### Netlify
+```bash
+npm run build
+# Drag & drop build folder to netlify.com
+```
+
+#### Vercel
+```bash
+npm install -g vercel
+vercel --prod
+```
+
+#### GitHub Pages
+```bash
+npm install --save-dev gh-pages
+# Add to package.json scripts: "deploy": "gh-pages -d build"
+npm run deploy
+```
 
 ## 📄 Available Scripts
 
