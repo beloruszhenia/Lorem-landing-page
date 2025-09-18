@@ -1,4 +1,5 @@
 import React from 'react';
+import { CheckCircleIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 
 const About = () => {
   return (
@@ -22,15 +23,15 @@ const About = () => {
             
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
-                <i className="bi bi-check2-circle text-brand-accent text-xl mt-1 flex-shrink-0"></i>
+                <CheckCircleIcon className="w-6 h-6 text-brand-accent mt-1 flex-shrink-0" />
                 <span className="text-brand-default">Ullamco laboris nisi ut aliquip ex ea commodo consequat.</span>
               </li>
               <li className="flex items-start gap-3">
-                <i className="bi bi-check2-circle text-brand-accent text-xl mt-1 flex-shrink-0"></i>
+                <CheckCircleIcon className="w-6 h-6 text-brand-accent mt-1 flex-shrink-0" />
                 <span className="text-brand-default">Duis aute irure dolor in reprehenderit in voluptate velit.</span>
               </li>
               <li className="flex items-start gap-3">
-                <i className="bi bi-check2-circle text-brand-accent text-xl mt-1 flex-shrink-0"></i>
+                <CheckCircleIcon className="w-6 h-6 text-brand-accent mt-1 flex-shrink-0" />
                 <span className="text-brand-default">Ullamco laboris nisi ut aliquip ex ea commodo</span>
               </li>
             </ul>
@@ -47,7 +48,7 @@ const About = () => {
               className="inline-flex items-center gap-2 text-brand-accent hover:text-primary-600 font-medium transition-colors duration-300 group no-underline"
             >
               <span>Read More</span>
-              <i className="bi bi-arrow-right transition-transform duration-300 group-hover:translate-x-1"></i>
+              <ArrowRightIcon className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
             </a>
           </div>
         </div>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { ChevronRightIcon } from '@heroicons/react/24/outline';
 import { useMenu } from '../../context/MenuContext';
 
 const DropdownPanel = ({ item }) => {
@@ -24,7 +25,7 @@ const DropdownPanel = ({ item }) => {
                 data-menu-id={child._key}
               >
                 <span>{child.label}</span>
-                <i className="bi bi-chevron-right text-xs" />
+                <ChevronRightIcon className="w-4 h-4" />
               </button>
               {/* Nested dropdown (flyout) */}
               <ul className="absolute left-full top-0 ml-1 bg-white rounded-lg shadow-xl border border-gray-200 min-w-[200px] py-1 hidden group-hover:block">

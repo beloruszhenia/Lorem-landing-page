@@ -1,4 +1,5 @@
 import React from 'react';
+import { XMarkIcon, Bars3Icon } from '@heroicons/react/24/outline';
 import { useMenu } from '../../context/MenuContext';
 import MenuItem from './MenuItem';
 import DropdownPanel from './DropdownPanel';
@@ -31,11 +32,15 @@ const NavMenu = () => {
 
       {/* Mobile */}
       <button
-        className="xl:hidden text-nav-default text-3xl p-2 z-50"
+        className="xl:hidden text-nav-default p-2 z-50"
         aria-label="Toggle menu"
         onClick={toggleMobile}
       >
-        <i className={`bi ${mobileOpen ? 'bi-x' : 'bi-list'}`} />
+        {mobileOpen ? (
+          <XMarkIcon className="w-8 h-8" />
+        ) : (
+          <Bars3Icon className="w-8 h-8" />
+        )}
       </button>
 
       <nav className="xl:hidden absolute top-full left-0 right-0 z-40" ref={rootRef}>

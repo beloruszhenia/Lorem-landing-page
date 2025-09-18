@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { MapPinIcon, PhoneIcon, EnvelopeIcon } from '@heroicons/react/24/outline';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -33,7 +34,7 @@ const Contact = () => {
           <div className="col-lg-5">
             <div className="info-wrap">
               <div className="info-item d-flex" data-aos="fade-up" data-aos-delay="200">
-                <i className="bi bi-geo-alt flex-shrink-0"></i>
+                <MapPinIcon className="w-6 h-6 text-brand-accent flex-shrink-0" />
                 <div>
                   <h3>Address</h3>
                   <p>вул. Михайлівська, 15, Житомир, 10001</p>
@@ -41,7 +42,7 @@ const Contact = () => {
               </div>
 
               <div className="info-item d-flex" data-aos="fade-up" data-aos-delay="300">
-                <i className="bi bi-telephone flex-shrink-0"></i>
+                <PhoneIcon className="w-6 h-6 text-brand-accent flex-shrink-0" />
                 <div>
                   <h3>Call Us</h3>
                   <p>+380 (41) 234 56 78</p>
@@ -49,7 +50,7 @@ const Contact = () => {
               </div>
 
               <div className="info-item d-flex" data-aos="fade-up" data-aos-delay="400">
-                <i className="bi bi-envelope flex-shrink-0"></i>
+                <EnvelopeIcon className="w-6 h-6 text-brand-accent flex-shrink-0" />
                 <div>
                   <h3>Email Us</h3>
                   <p>info@lorem.com.ua</p>

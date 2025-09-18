@@ -1,4 +1,5 @@
 import React from 'react';
+import { ChevronDownIcon } from '@heroicons/react/24/outline';
 import { useMenu } from '../../context/MenuContext';
 
 const MenuItem = ({ item, depth = 0 }) => {
@@ -29,9 +30,9 @@ const MenuItem = ({ item, depth = 0 }) => {
       >
         <span className="whitespace-nowrap">{item.label}</span>
         {isDropdown && (
-          <i
-            className={`bi ml-1 text-xs transition-transform duration-300 ${
-              isOpen ? 'bi-chevron-up rotate-180' : 'bi-chevron-down'
+          <ChevronDownIcon
+            className={`ml-1 w-4 h-4 transition-transform duration-300 ${
+              isOpen ? 'rotate-180' : ''
             }`}
           />
         )}

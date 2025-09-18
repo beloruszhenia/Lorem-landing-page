@@ -1,4 +1,5 @@
 import React from 'react';
+import { PlayCircleIcon } from '@heroicons/react/24/outline';
 
 const Hero = () => {
   return (
@@ -24,7 +25,7 @@ const Hero = () => {
                 href="https://www.youtube.com/watch?v=Y7f98aduVJ8" 
                 className="inline-flex items-center gap-3 px-6 py-3 text-nav-default hover:text-brand-accent transition-colors duration-300 no-underline"
               >
-                <i className="bi bi-play-circle text-2xl"></i>
+                <PlayCircleIcon className="w-8 h-8" />
                 <span className="font-medium">Watch Video</span>
               </a>
             </div>
