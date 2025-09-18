@@ -2,28 +2,53 @@ import React from 'react';
 
 const About = () => {
   return (
-    <section id="about" className="about section">
-      <div className="container section-title" data-aos="fade-up">
-        <h2>About Us</h2>
-      </div>
+    <section id="about" className="py-20 bg-bg-light font-default">
+      <div className="container mx-auto px-4 max-w-7xl">
+        {/* Section Title */}
+        <div className="text-center mb-16" data-aos="fade-up">
+          <h2 className="text-3xl md:text-4xl font-bold text-brand-heading mb-6 relative font-heading">
+            About Us
+            <span className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-16 h-1 bg-brand-accent rounded"></span>
+          </h2>
+        </div>
 
-      <div className="container">
-        <div className="row gy-4">
-          <div className="col-lg-6 content" data-aos="fade-up" data-aos-delay="100">
-            <p>
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          {/* Content */}
+          <div className="space-y-6" data-aos="fade-up" data-aos-delay="100">
+            <p className="text-lg text-brand-default leading-relaxed">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
               magna aliqua.
             </p>
-            <ul>
-              <li><i className="bi bi-check2-circle"></i> <span>Ullamco laboris nisi ut aliquip ex ea commodo consequat.</span></li>
-              <li><i className="bi bi-check2-circle"></i> <span>Duis aute irure dolor in reprehenderit in voluptate velit.</span></li>
-              <li><i className="bi bi-check2-circle"></i> <span>Ullamco laboris nisi ut aliquip ex ea commodo</span></li>
+            
+            <ul className="space-y-4">
+              <li className="flex items-start gap-3">
+                <i className="bi bi-check2-circle text-brand-accent text-xl mt-1 flex-shrink-0"></i>
+                <span className="text-brand-default">Ullamco laboris nisi ut aliquip ex ea commodo consequat.</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <i className="bi bi-check2-circle text-brand-accent text-xl mt-1 flex-shrink-0"></i>
+                <span className="text-brand-default">Duis aute irure dolor in reprehenderit in voluptate velit.</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <i className="bi bi-check2-circle text-brand-accent text-xl mt-1 flex-shrink-0"></i>
+                <span className="text-brand-default">Ullamco laboris nisi ut aliquip ex ea commodo</span>
+              </li>
             </ul>
           </div>
 
-          <div className="col-lg-6" data-aos="fade-up" data-aos-delay="200">
-            <p>Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p>
-            <a href="#" className="read-more"><span>Read More</span><i className="bi bi-arrow-right"></i></a>
+          {/* Additional Content */}
+          <div className="space-y-6" data-aos="fade-up" data-aos-delay="200">
+            <p className="text-brand-default leading-relaxed">
+              Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </p>
+            
+            <a 
+              href="#" 
+              className="inline-flex items-center gap-2 text-brand-accent hover:text-primary-600 font-medium transition-colors duration-300 group no-underline"
+            >
+              <span>Read More</span>
+              <i className="bi bi-arrow-right transition-transform duration-300 group-hover:translate-x-1"></i>
+            </a>
           </div>
         </div>
       </div>

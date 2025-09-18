@@ -32,7 +32,7 @@ const Header = () => {
   useEffect(() => {
     const handleClickOutside = (event) => {
       // Перевіряємо чи клік не всередині dropdown меню
-      if (!event.target.closest('.dropdown')) {
+      if (!event.target.closest('.group')) {
         setMainDropdownOpen(false);
         setDeepDropdownOpen(false);
       }
@@ -46,10 +46,9 @@ const Header = () => {
   useEffect(() => {
     const handleClickOutside = (event) => {
       const nav = document.getElementById('navmenu');
-      const toggle = document.querySelector('.mobile-nav-toggle');
+      const toggle = event.target.closest('[aria-label="Toggle menu"]');
       
-      if (isMobileMenuOpen && nav && !nav.contains(event.target) && 
-          toggle && !toggle.contains(event.target)) {
+      if (isMobileMenuOpen && nav && !nav.contains(event.target) && !toggle) {
         setIsMobileMenuOpen(false);
         setMainDropdownOpen(false);
         setDeepDropdownOpen(false);
@@ -113,10 +112,12 @@ const Header = () => {
     // Зовнішнє посилання
     if (item.type === 'external') {
       return (
-        <li key={item.id}>
+        <li key={item.id} className="relative">
           <a 
             href={item.href} 
-            className={`text-decoration-none ${item.active ? 'active' : ''}`}
+            className={`block px-4 py-2 xl:px-3 xl:py-4 text-brand-default xl:text-nav-default hover:text-brand-accent transition-colors duration-300 no-underline ${
+              item.active ? 'text-brand-accent' : ''
+            }`}
             target={item.target || '_self'}
             rel={item.target === '_blank' ? 'noopener noreferrer' : undefined}
           >
@@ -128,10 +129,12 @@ const Header = () => {
 
     // Звичайне посилання з прокруткою
     return (
-      <li key={item.id}>
+      <li key={item.id} className="relative">
         <a 
           href={`#${item.target}`} 
-          className={`text-decoration-none ${item.active ? 'active' : ''}`}
+          className={`block px-4 py-2 xl:px-3 xl:py-4 text-gray-700 xl:text-white hover:text-blue-500 transition-colors duration-300 no-underline ${
+            item.active ? 'text-blue-500' : ''
+          }`}
           onClick={() => scrollToSection(item.target)}
         >
           {item.label}
@@ -159,23 +162,50 @@ const Header = () => {
     }
 
     return (
-      <li key={item.id} className={`dropdown position-relative ${isOpen ? 'show' : ''}`}>
+      <li key={item.id} className={`relative group ${isOpen ? 'dropdown-open' : ''}`}>
         <a 
           href="#" 
-          className={isMainDropdown ? "text-decoration-none d-flex align-items-center" : "dropdown-item d-flex align-items-center"}
+          className={`flex items-center justify-between px-4 py-2 xl:px-3 xl:py-4 text-brand-default xl:text-nav-default hover:text-brand-accent transition-colors duration-300 no-underline cursor-pointer`}
           onClick={handleClick}
         >
           <span>{item.label}</span> 
-          <i className={`bi ${isOpen ? 'bi-chevron-up' : 'bi-chevron-down'} toggle-dropdown ms-auto`}></i>
+          <i className={`bi ${isOpen ? 'bi-chevron-up' : 'bi-chevron-down'} ml-1 transition-transform duration-300`}></i>
         </a>
-        <ul className={`dropdown-menu ${isOpen ? 'show' : ''}`}>
+        
+        {/* Desktop Dropdown */}
+        <ul className={`hidden xl:block absolute left-3 top-full mt-2 bg-nav-dropdown-bg rounded-lg shadow-xl border min-w-[200px] overflow-hidden transition-all duration-300 ${
+          isOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
+        }`}>
           {item.items.map((subItem) => (
             subItem.type === 'dropdown' 
               ? renderDropdownItem(subItem)
               : <li key={subItem.id}>
                   <a 
                     href={subItem.href} 
-                    className="dropdown-item"
+                    className="block px-4 py-3 text-nav-dropdown hover:text-nav-dropdown-hover hover:bg-gray-50 transition-colors duration-200 border-b border-gray-100 last:border-b-0 no-underline"
+                    onClick={(e) => {
+                      if (subItem.href === '#') {
+                        e.preventDefault();
+                      } else {
+                        handleDropdownItemClick(subItem.href);
+                      }
+                    }}
+                  >
+                    {subItem.label}
+                  </a>
+                </li>
+          ))}
+        </ul>
+
+        {/* Mobile Dropdown */}
+        <ul className={`xl:hidden ${isOpen ? 'block' : 'hidden'} ml-4 mt-2 space-y-1`}>
+          {item.items.map((subItem) => (
+            subItem.type === 'dropdown' 
+              ? renderDropdownItem(subItem)
+              : <li key={subItem.id}>
+                  <a 
+                    href={subItem.href} 
+                    className="block px-4 py-2 text-sm text-brand-default hover:text-brand-accent transition-colors duration-200 no-underline"
                     onClick={(e) => {
                       if (subItem.href === '#') {
                         e.preventDefault();
@@ -196,25 +226,53 @@ const Header = () => {
   return (
     <header 
       id="header" 
-      className={`header d-flex align-items-center fixed-top position-fixed w-100 ${isScrolled ? 'scrolled' : ''}`}
+      className={`fixed top-0 left-0 right-0 z-50 flex items-center w-full px-4 py-3 transition-all duration-500 ${
+        isScrolled 
+          ? 'bg-brand-heading/80 backdrop-blur-sm' 
+          : 'bg-transparent'
+      }`}
     >
-      <div className="container-fluid container-xl position-relative d-flex align-items-center">
-        <a href="#" className="logo d-flex align-items-center me-auto text-decoration-none">
-          <h1 className="sitename mb-0">{siteName}</h1>
+      <div className="container mx-auto flex items-center justify-between max-w-7xl">
+        {/* Logo */}
+        <a href="#" className="flex items-center no-underline">
+          <h1 className="text-2xl md:text-3xl font-medium text-nav-default tracking-wider uppercase m-0 font-heading">
+            {siteName}
+          </h1>
         </a>
 
-        <nav id="navmenu" className={`navmenu ${isMobileMenuOpen ? 'navmenu-active' : ''}`}>
-          <ul className={`list-unstyled mb-0 ${isMobileMenuOpen ? 'd-block' : ''}`}>
+        {/* Desktop Navigation */}
+        <nav className="hidden xl:flex">
+          <ul className="flex items-center space-x-6 list-none m-0 p-0">
             {menuItems.map(renderMenuItem)}
           </ul>
-          <i 
-            className={`mobile-nav-toggle d-xl-none bi ${isMobileMenuOpen ? 'bi-x' : 'bi-list'}`}
-            onClick={toggleMobileMenu}
-          ></i>
         </nav>
 
+        {/* Mobile Navigation */}
+        <nav 
+          id="navmenu" 
+          className={`xl:hidden ${isMobileMenuOpen ? 'navmenu-active' : ''}`}
+        >
+          <ul className={`${
+            isMobileMenuOpen 
+              ? 'fixed inset-x-5 top-16 bottom-5 bg-white rounded-lg shadow-xl p-2 space-y-1 overflow-y-auto z-50' 
+              : 'hidden'
+          } list-none m-0`}>
+            {menuItems.map(renderMenuItem)}
+          </ul>
+        </nav>
+
+        {/* Mobile Menu Toggle */}
+        <button
+          className="xl:hidden text-nav-default text-3xl p-2 z-50"
+          onClick={toggleMobileMenu}
+          aria-label="Toggle menu"
+        >
+          <i className={`bi ${isMobileMenuOpen ? 'bi-x' : 'bi-list'}`}></i>
+        </button>
+
+        {/* CTA Button */}
         <a 
-          className="btn-getstarted text-decoration-none" 
+          className="hidden xl:block bg-brand-accent hover:bg-primary-600 text-brand-contrast px-6 py-2 rounded-full text-sm font-medium transition-colors duration-300 no-underline ml-8" 
           href={`#${ctaButton.target}`} 
           onClick={() => scrollToSection(ctaButton.target)}
         >
