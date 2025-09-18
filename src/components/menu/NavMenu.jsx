@@ -38,12 +38,23 @@ const NavMenu = () => {
         <i className={`bi ${mobileOpen ? 'bi-x' : 'bi-list'}`} />
       </button>
 
-      <nav className="xl:hidden" ref={rootRef}>
-        <ul className={`${
-          mobileOpen
-            ? 'fixed inset-x-5 top-16 bottom-5 bg-white rounded-lg shadow-xl p-3 space-y-2 overflow-y-auto z-50'
-            : 'hidden'
-        } list-none m-0`}>          
+      <nav className="xl:hidden absolute top-full left-0 right-0 z-40" ref={rootRef}>
+        {/* Backdrop overlay */}
+        {mobileOpen && (
+          <div 
+            className="fixed inset-0 bg-black bg-opacity-50 -z-10"
+            onClick={toggleMobile}
+          />
+        )}
+        
+        {/* Mobile menu */}
+        <ul 
+          className={`${
+            mobileOpen
+              ? 'mx-5 mt-2 mb-5 bg-white rounded-lg shadow-xl p-3 space-y-2 overflow-y-auto max-h-[80vh]'
+              : 'hidden'
+          } list-none m-0`}
+        >          
           {items.map(item => (
             <MenuItem key={item._key} item={item} depth={0} />
           ))}
