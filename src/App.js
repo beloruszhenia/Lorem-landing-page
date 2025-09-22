@@ -2,7 +2,8 @@ import React, { useEffect } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import './App.css';
-import './components/styles.css';
+import './components/styles-tailwind.css';
+// import '.components/styles.css';
 
 // Import components
 import Header from './components/Header';

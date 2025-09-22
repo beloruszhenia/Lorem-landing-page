@@ -3,17 +3,17 @@ import { CheckCircleIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 
 const About = () => {
   return (
-    <section id="about" className="py-20 bg-bg-light font-default">
+    <section id="about" className="py-10  bg-bg-light font-default">
       <div className="container mx-auto px-4 max-w-7xl">
         {/* Section Title */}
         <div className="text-center mb-16" data-aos="fade-up">
-          <h2 className="text-3xl md:text-4xl font-bold text-brand-heading mb-6 relative font-heading">
+          <h2 className="text-3xl uppercase md:text-4xl font-bold text-brand-heading mb-6 relative font-heading">
             About Us
             <span className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-16 h-1 bg-brand-accent rounded"></span>
           </h2>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="grid lg:grid-cols-2 gap-12 items-center p-10">
           {/* Content */}
           <div className="space-y-6" data-aos="fade-up" data-aos-delay="100">
             <p className="text-lg text-brand-default leading-relaxed">
@@ -45,7 +45,9 @@ const About = () => {
             
             <a 
               href="#" 
-              className="inline-flex items-center gap-2 text-brand-accent hover:text-primary-600 font-medium transition-colors duration-300 group no-underline"
+              className="px-8 py-2 inline-flex items-center gap-2 text-brand-accent font-medium transition-colors duration-300 group no-underline 
+              border-2 rounded border-brand-accent 
+              hover:bg-brand-accent hover:text-white hover:text-primary-600"
             >
               <span>Read More</span>
               <ArrowRightIcon className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />

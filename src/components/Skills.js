@@ -28,6 +28,8 @@ const Skills = () => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           animateSkills();
+          // Відключаємо observer після першої анімації
+          observer.unobserve(entry.target);
         }
       });
     }, { threshold: 0.3 });
@@ -40,28 +42,29 @@ const Skills = () => {
   }, [skills]);
 
   return (
-    <section id="skills" className="skills section" ref={skillsRef}>
-      <div className="container" data-aos="fade-up" data-aos-delay="100">
-        <div className="row">
-          <div className="col-lg-6 d-flex align-items-center">
-            <img src="/assets/img/illustration/illustration-10.webp" className="img-fluid" alt="" />
+    <section id="skills" className="py-20 bg-white" ref={skillsRef}>
+      <div className="container mx-auto px-4" data-aos="fade-up" data-aos-delay="100">
+        <div className="grid lg:grid-cols-2 gap-8 items-center">
+          <div className="flex items-center justify-center">
+            <img src="/assets/img/illustration/illustration-10.webp" className="w-full h-auto max-w-md" alt="Skills illustration" />
           </div>
 
-          <div className="col-lg-6 pt-4 pt-lg-0 content">
-            <h3>Voluptatem dignissimos provident quasi corporis voluptas</h3>
-            <p className="fst-italic">
+          <div className="pt-4 lg:pt-0">
+            <h3 className="text-3xl font-bold text-brand-heading mb-4">Voluptatem dignissimos provident quasi corporis voluptas</h3>
+            <p className="italic text-gray-600 mb-8">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
             </p>
 
-            <div className="skills-content skills-animation">
+            <div className="space-y-6">
               {skills.map((skill, index) => (
-                <div key={index} className="progress">
-                  <span className="skill">
-                    <span>{skill.name}</span> <i className="val">{skill.percentage}%</i>
-                  </span>
-                  <div className="progress-bar-wrap">
+                <div key={index} className="skill-item">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="uppercase font-medium text-brand-heading">{skill.name}</span>
+                    <span className="text-brand-accent font-semibold">{skill.percentage}%</span>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
                     <div 
-                      className="progress-bar" 
+                      className="progress-bar h-full bg-gradient-to-r from-brand-accent to-brand-heading rounded-full transition-all duration-1000 ease-out" 
                       role="progressbar" 
                       aria-valuenow={skill.percentage} 
                       aria-valuemin="0" 

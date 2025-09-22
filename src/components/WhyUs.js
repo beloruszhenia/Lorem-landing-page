@@ -26,40 +26,59 @@ const WhyUs = () => {
   };
 
   return (
-    <section id="why-us" className="section why-us light-background">
-      <div className="container-fluid">
-        <div className="row gy-4">
-          <div className="col-lg-7 d-flex flex-column justify-content-center order-2 order-lg-1">
-            <div className="content px-xl-5" data-aos="fade-up" data-aos-delay="100">
-              <h3>
-                <span>Eum ipsam laborum deleniti </span>
-                <strong>velit pariatur architecto aut nihil</strong>
+    <section id="why-us" className="py-20 bg-gray-50">
+      <div className="container mx-auto px-4">
+        <div className="grid lg:grid-cols-12 gap-8 items-center">
+          <div className="lg:col-span-7 order-2 lg:order-1">
+            <div className="xl:px-12" data-aos="fade-up" data-aos-delay="100">
+              <h3 className="text-3xl font-bold mb-4">
+                <span className="text-gray-600">Eum ipsam laborum deleniti </span>
+                <strong className="text-brand-heading">velit pariatur architecto aut nihil</strong>
               </h3>
-              <p>
+              <p className="text-gray-600 mb-8">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit
               </p>
             </div>
 
-            <div className="faq-container px-xl-5" data-aos="fade-up" data-aos-delay="200">
+            <div className="xl:px-12" data-aos="fade-up" data-aos-delay="200">
               {faqItems.map((item, index) => (
-                <div 
-                  key={index} 
-                  className={`faq-item ${activeFaq === index ? 'faq-active' : ''}`}
+                <div
+                  key={index}
+                  className={`border-b border-gray-200 py-4 ${activeFaq === index ? 'bg-blue-50' : ''}`}
                 >
-                  <h3 onClick={() => toggleFaq(index)}>
-                    <span>{String(item.id).padStart(2, '0')}</span> {item.question}
+                  <h3 
+                    onClick={() => toggleFaq(index)}
+                    className="flex items-center cursor-pointer text-lg font-semibold text-brand-heading hover:text-brand-accent transition-colors"
+                  >
+                    <span className="text-brand-accent font-bold mr-3">{String(item.id).padStart(2, '0')}</span> 
+                    {item.question}
+                    <svg 
+                      className={`ml-auto w-5 h-5 transform transition-transform ${activeFaq === index ? 'rotate-90' : ''}`}
+                      fill="none" 
+                      stroke="currentColor" 
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
                   </h3>
-                  <div className="faq-content">
-                    <p>{item.answer}</p>
-                  </div>
-                  <i className="faq-toggle bi bi-chevron-right"></i>
+                  {activeFaq === index && (
+                    <div className="mt-3 text-gray-600">
+                      <p>{item.answer}</p>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="col-lg-5 order-1 order-lg-2 why-us-img">
-            <img src="/assets/img/why-us.png" className="img-fluid" alt="" data-aos="zoom-in" data-aos-delay="100" />
+          <div className="lg:col-span-5 order-1 lg:order-2">
+            <img 
+              src="/assets/img/why-us.png" 
+              className="w-full h-auto object-cover rounded-lg" 
+              alt="Why choose us" 
+              data-aos="zoom-in" 
+              data-aos-delay="100" 
+            />
           </div>
         </div>
       </div>

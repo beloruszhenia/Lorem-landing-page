@@ -2,9 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Import Bootstrap Icons only */
-@import 'bootstrap-icons/font/bootstrap-icons.css';
-
 /* Smooth scroll */
 :root {
   scroll-behavior: smooth;
