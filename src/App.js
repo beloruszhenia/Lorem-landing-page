@@ -19,6 +19,7 @@ import Pricing from './components/Pricing';
 import Blog from './components/Blog';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import ScrollTopButton from './components/ScrollTopButton.jsx';
 
 function App() {
   useEffect(() => {
@@ -66,6 +67,7 @@ function App() {
         <Contact />
       </main>
       <Footer />
+      <ScrollTopButton />
     </div>
   );
 }
