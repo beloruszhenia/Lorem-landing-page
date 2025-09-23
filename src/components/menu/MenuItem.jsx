@@ -40,9 +40,9 @@ const MenuItem = ({ item, depth = 0, skipWrapper = false }) => {
         )}
       </a>
 
-      {/* Desktop dropdown panel - Pure conditional rendering */}
-      {isDropdown && item.items && depth === 0 && isOpen && (
-        <div className="absolute left-0 top-full mt-2 z-50">
+      {/* Desktop dropdown panel - render only on desktop and when mobile menu is closed */}
+      {isDropdown && item.items && depth === 0 && isOpen && !mobileOpen && (
+        <div className="absolute left-0 top-full mt-2 z-50 hidden xl:block">
           <DropdownPanel item={item} />
         </div>
       )}

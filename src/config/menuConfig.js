@@ -51,7 +51,7 @@ export const menuConfig = {
     {
       id: 'blog',
       label: 'Blog',
-      target: 'recent-blog-postst',
+      target: 'recent-blog-posts',
       type: 'link'
     },
     {

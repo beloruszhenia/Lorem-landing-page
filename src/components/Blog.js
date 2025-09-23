@@ -30,7 +30,7 @@ const Blog = () => {
   ];
 
   return (
-    <section id="recent-blog-postst" className="py-20 bg-gray-50">
+    <section id="recent-blog-posts" className="py-20 bg-gray-50">
       <div className="container mx-auto px-4 text-center mb-16" data-aos="fade-up">
         <h2 className="text-3xl lg:text-4xl font-bold text-brand-heading mb-4">Recent Blog Posts</h2>
         <p className="text-gray-600 text-lg max-w-3xl mx-auto">Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>

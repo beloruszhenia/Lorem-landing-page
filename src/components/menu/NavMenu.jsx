@@ -21,6 +21,8 @@ const NavMenu = () => {
       <button
         className="xl:hidden text-nav-default p-2 z-50"
         aria-label="Toggle menu"
+        aria-expanded={mobileOpen}
+        aria-controls="mobile-nav"
         onClick={toggleMobile}
       >
         {mobileOpen ? (
@@ -32,7 +34,7 @@ const NavMenu = () => {
 
       {/* Mobile Navigation - Pure conditional rendering */}
       {mobileOpen && (
-        <nav className="xl:hidden absolute top-full left-0 right-0 z-40" ref={rootRef}>
+        <nav id="mobile-nav" aria-label="Mobile navigation" className="xl:hidden absolute top-full left-0 right-0 z-40" ref={rootRef}>
           {/* Backdrop overlay */}
           <div 
             className="fixed inset-0 bg-black bg-opacity-50 -z-10"
